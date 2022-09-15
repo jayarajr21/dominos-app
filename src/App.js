@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import CartPage from "./pages/CartPage";
+import AdminPage from "./pages/AdminPage";
+import HistoryPage from "./pages/HistoryPage";
+import AdminNavbar from "./components/AdminNavbar";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+import { UserContext } from "./context/UserContext";
+import { useContext } from "react";
+import Dish from "./pages/DishPage";
+
+const App = () => {
+  const { loggedInUser }=useContext(UserContext);
+  console.log(loggedInUser)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/Login" element={<LoginPage />} />
+        <Route path="/Register" element={<RegisterPage />} />
+
+        <Route element = {<ProtectedRoutes auth={loggedInUser.isLoggedIn}/>} />
+        
+        <Route path="/Cart" element={<CartPage />} />
+        <Route path="/Admin" element={<AdminPage />} />
+        <Route path="/History" element={<HistoryPage />} />
+        <Route path="/adminnavbar" element={<AdminNavbar />} />
+        <Route path="/Dish" element={<Dish />}/>
+
+      
+        
+      </Routes>
   );
 }
 
